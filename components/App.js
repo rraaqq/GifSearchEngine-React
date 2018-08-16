@@ -23,21 +23,30 @@ App = React.createClass({
         }.bind(this));
     },
 
-    getGif: function(searchingText, callback) {  
-        var url = GIPHY_API_URL + '/v1/gifs/random?api_key=' + GIPHY_PUB_KEY + '&tag=' + searchingText; 
-        var xhr = new XMLHttpRequest();  
-        xhr.open('GET', url);
-        xhr.onload = function() {
-            if (xhr.status === 200) {
-               var data = JSON.parse(xhr.responseText).data;
-                var gif = { 
-                    url: data.fixed_width_downsampled_url,
-                    sourceUrl: data.url
+    getGif: function (searchingText) {
+        return new Promise(
+            function (resolve, reject) {
+                const url = GIPHY_API_URL + '/v1/gifs/random?api_key=' + GIPHY_PUB_KEY + '&tag=' + searchingText;
+                const xhr = new XMLHttpRequest();
+                xhr.onload = function () {
+                    if (xhr.status === 200) {
+                        const data = JSON.parse(xhr.responseText).data
+                        const gif = {
+                            url: data.fixed_width_downsampled_url,
+                            sourceUrl: data.url
+                        }
+                        resolve(gif);
+                    } else {
+                        reject(Error(xhr.statusText));
+                    }
                 };
-                callback(gif); 
+                xhr.onerror = function () {
+                    reject(Error(`XMLHttpRequest Error: ${this.statusText}`));
+                }
+                xhr.open('GET', url);
+                xhr.send();
             }
-        };
-        xhr.send();
+        );
     },
 
     render: function() {
