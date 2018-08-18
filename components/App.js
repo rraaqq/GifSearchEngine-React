@@ -14,13 +14,6 @@ App = React.createClass({
         this.setState({
           loading: true  
         });
-    },
-
-/*
-    handleSearch: function(searchingText) { 
-        this.setState({
-          loading: true  
-        });
         this.getGif(searchingText, function(gif) {  
           this.setState({  
             loading: false, 
@@ -29,7 +22,7 @@ App = React.createClass({
           });
         }.bind(this));
     },
-*/
+
     getGif: function(searchingText, callback) { 
         return new Promise(
             function(resolve, reject) {
@@ -53,13 +46,11 @@ App = React.createClass({
     },
 
     getGif: then(function(res) {
-        this.getGif(searchingText, function(gif) {  
-            this.setState({  
-              loading: false, 
-              gif: gif,  
-              searchingText: searchingText  
-            });
-          }.bind(this));
+        this.setState({  
+            loading: false, 
+            gif: gif,  
+            searchingText: searchingText  
+        });
     }),
 
 
