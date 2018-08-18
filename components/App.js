@@ -60,7 +60,7 @@ App = React.createClass({
               searchingText: searchingText  
             });
           }.bind(this));
-    }).catch(error => console.error('Something went wrong', error)),
+    }),
 
 
     render: function() {
