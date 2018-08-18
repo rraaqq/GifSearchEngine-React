@@ -9,7 +9,7 @@ App = React.createClass({
             gif: {}
         };
     },
-
+/*
     handleSearch: function(searchingText) { 
         this.setState({
           loading: true  
@@ -22,7 +22,7 @@ App = React.createClass({
           });
         }.bind(this));
     },
-
+*/
     getGif: function(searchingText, callback) { 
         return new Promise(
             function(resolve, reject) {
@@ -44,6 +44,17 @@ App = React.createClass({
                 xhr.send();
             });    
     },
+
+    getGif: then(function(res) {
+        this.getGif(searchingText, function(gif) {  
+            this.setState({  
+              loading: false, 
+              gif: gif,  
+              searchingText: searchingText  
+            });
+          }.bind(this));
+    }).catch(error => console.error('Something went wrong', error)),
+
 
     render: function() {
         var styles = {
