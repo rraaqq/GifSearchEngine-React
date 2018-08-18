@@ -9,6 +9,13 @@ App = React.createClass({
             gif: {}
         };
     },
+
+    handleSearch: function(searchingText) { 
+        this.setState({
+          loading: true  
+        });
+    },
+
 /*
     handleSearch: function(searchingText) { 
         this.setState({
