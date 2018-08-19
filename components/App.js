@@ -14,9 +14,16 @@ App = React.createClass({
         this.setState({
           loading: true  
         });
+        this.getGif(searchingText).then(function(gif) {
+            this.setState({  
+                loading: false, 
+                gif: gif,  
+                searchingText: searchingText  
+              });
+            }.bind(this));
     },
 
-    getGif: function(searchingText, callback) { 
+    getGif: function(searchingText) { 
         return new Promise(
             function(resolve, reject) {
                 var url = GIPHY_API_URL + '/v1/gifs/random?api_key=' + GIPHY_PUB_KEY + '&tag=' + searchingText; 
@@ -28,7 +35,7 @@ App = React.createClass({
                                 url: data.fixed_width_downsampled_url,
                                 sourceUrl: data.url
                             };
-                            resolve(callback(gif));
+                            resolve(gif);
                     } else {
                         reject(new Error(xhr.status));
                     }
@@ -37,18 +44,7 @@ App = React.createClass({
                 xhr.send();
             });    
     },
-
-    getGif: then(function(res) {
-        this.getGif(searchingText, function(gif) {  
-            this.setState({  
-              loading: false, 
-              gif: gif,  
-              searchingText: searchingText  
-            });
-          }.bind(this));
-    }),
-
-
+    
     render: function() {
         var styles = {
             margin: '0 auto',
